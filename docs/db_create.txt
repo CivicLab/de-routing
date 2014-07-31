@@ -1,0 +1,22 @@
+CREATE TABLE `records` (
+  `id` varchar(36) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
+  `exploration_id` int(11) DEFAULT NULL,
+  `explorer` varchar(50) CHARACTER SET latin1 COLLATE latin1_german2_ci DEFAULT NULL,
+  `completed` tinyint(1) DEFAULT '1',
+  `submitted` tinyint(1) DEFAULT '0',
+  `tasks` text CHARACTER SET latin1 COLLATE latin1_german2_ci,
+  `route` text CHARACTER SET latin1 COLLATE latin1_german2_ci,
+  `area` text CHARACTER SET latin1 COLLATE latin1_german2_ci,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `visible` tinyint(1) DEFAULT '1',
+  PRIMARY KEY `id` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=254 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `explorations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET latin1 COLLATE latin1_german2_ci DEFAULT NULL,
+  `json` text CHARACTER SET latin1 COLLATE latin1_german2_ci,
+  `visible` tinyint(1) NOT NULL DEFAULT '1',
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;

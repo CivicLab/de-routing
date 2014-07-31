@@ -1,0 +1,106 @@
+
+HOW TO SETUP DEV ENVIRONMENT FOR DE-ROUTING APP
+-----------------------------------------------
+(follow this guide: http://cordova.apache.org/docs/en/3.5.0/guide_platforms_android_index.md.html)
+
+install homebrew
+----------------
+ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
+brew update
+
+install ant
+-----------
+brew install ant
+
+download and install node.js
+---------------
+http://nodejs.org/
+
+install cordova
+----------------
+sudo npm install -g cordova
+
+download and install android sdk
+-------------------
+http://developer.android.com/sdk/installing/index.html?pkg=adt
+start eclipse -> SDK Manager install packages: android 2.3 (api 10)
+
+
+
+
+
+
+CREATE PROJECT
+--------------
+(if not already setup create new project:)
+
+go to code directory and type: "cordova create de-routing de.drl.de-routing De-Routing"
+add android platform: "cordova platform add android"
+
+setup emulator device in eclipse
+--------------------------------
+eclipse -> android virtual device manager
+command: cordova emulate 
+
+add all necessary plugins
+-------------------------
+cordova plugin add org.apache.cordova.file
+cordova plugin add org.apache.cordova.file-transfer
+cordova plugin add org.apache.cordova.media-capture
+cordova plugin add org.apache.cordova.splashscreen
+ cordova plugin add ../soundRecorderPlugin/org.apache.cordova.soundrecorder/
+ for soundrecorder copy java files and res files manualy and add to manifest:
+ <activity
+    android:name="org.apache.cordova.soundrecorder.SoundRecorderActivity"
+    android:configChanges="orientation|keyboardHidden|screenSize"
+    android:label="Sound Recorder"
+    android:theme="@android:style/Theme.Black.NoTitleBar" >
+</activity>
+
+
+
+or run on device (make sure debugging is enabled)
+--------------------------------------------------
+cordova run android
+
+build project
+-------------
+cordova build android
+
+
+add special permissions to manifest.xml
+——-
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+
+
+MISC CHANGES
+------------
+
+file transder plugin:
+----------------------
+this code stops the tansfer from failing:
+options.chunkedMode = true;
+options.headers = {Connection: "close"};
+
+media capture plugin:
+---------------------
+change function:
+private String getTempDirectoryPath() {
+    File cache = null;
+
+    // Use internal storage
+    //cache = cordova.getActivity().getCacheDir();
+    cache = cordova.getActivity().getExternalCacheDir();
+    
+
+    // Create the cache directory if it doesn't exist
+    cache.mkdirs();
+    return cache.getAbsolutePath();
+}
+
+install your own plugin
+-----------------------
+cordova plugin add ../path/to/my/plugin
