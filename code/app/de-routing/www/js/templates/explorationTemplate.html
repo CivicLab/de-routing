@@ -1,0 +1,21 @@
+<div class="header">
+	<a href="#/setup" class="button small header-left up-nav">
+		<span class="icon small up-nav"></span> <span class="title">Exploration</span>
+	</a>
+</div>
+</div>
+<div class="scroll details" id="scrollbutton_div">
+	<ul class="list">
+		<li><span class="title"><%= exploration.get('name') %></span><span class="number"><%= exploration.get('id') %></span>
+		<p class="desc"><%= exploration.get('json').description %></p></li>
+	</ul>
+	<ul class="list">
+		<li><span class="text">The explorer's name:</span><input type="text" id="explorerName" placeholder="type in name..."/></li>
+		<li>
+			<a href="#" class="startExploration">
+				<span class="title">Start Exploration</span> 
+				<span class="icon walk"></span>
+			</a>
+		</li>
+	</ul>
+</div>

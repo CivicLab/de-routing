@@ -1,0 +1,38 @@
+<div class="header">
+	<a href="#/records" class="button small header-left up-nav">
+		<span class="icon small up-nav"></span> <span class="title">Record</span>
+	</a>
+</div>
+</div>
+<div class="scroll details" id="scrollbutton_div">
+	<ul class="list">
+		<li><p class="desc">Explorer</p><span class="text"></span><span class="title"><%= record.get('explorer') %></span></li>
+		<li><p class="desc">Exploration</p><span class="text"></span><span class="title"><%= record.get('exploration_name') %></span><span class="number"><%= record.get('exploration_id') %></span></li>
+	</ul>
+	<ul class="list">
+		<% if (!record.get('completed')) { %>
+		<li>
+			<a href="#/walk/<%= record.get('id') %>" class="startExploration">
+				<span class="title">Continue Exploration</span> 
+				<span class="icon walk"></span>
+			</a>
+		</li>
+		<% } %>
+		<% if ((record.get('submitted')) && (record.get('completed'))) { %>
+			<p class="result-text">Record submitted</p>
+		<% } else if (record.get('completed')) { %>
+			<li>
+				<a href="#" class="submitData">
+					<span class="title">Submit Data</span> 
+					<span class="icon upload"></span>
+				</a>
+			</li>
+		<% } %>
+		<li>
+			<a href="#/records" class="deleteRecord">
+				<span class="title">Delete Record</span> 
+				<span class="icon reject"></span>
+			</a>
+		</li>
+	</ul>
+</div>

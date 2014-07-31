@@ -1,0 +1,15 @@
+<h1><%= subtask.title %></h1>
+<p><%= subtask.text %></p>
+<div class="video">
+	<% if (subtask.result) { %>
+	<p class="result-text">Video saved</p>
+	<% } else { %>
+	<p class="result-text" style="display: none">No video recorded</p>
+	<% } %>
+	<input type="hidden" class="result" value="<%= subtask.result %>"/>
+</div>
+<div class="center">
+	<a href="#" class="button big middle taskAction"> <span
+		class="icon video"></span> <span class="text">Record Video</span>
+	</a>
+</div>

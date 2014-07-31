@@ -1,0 +1,15 @@
+<h1><%= subtask.title %></h1>
+<p><%= subtask.text %></p>
+<div class="image">
+	<% if (subtask.result) { %>
+	<img class="result-image" src="<%= subtask.result %>" /> 
+	<% } else { %>
+	<img class="result-image" style="display: none" /> 
+	<% } %>
+	<input type="hidden" class="result" value="<%= subtask.result %>"/>
+</div>
+<div class="center">
+	<a href="#" class="button big middle taskAction"> <span
+		class="icon camera"></span> <span class="text">Take Picture</span>
+	</a>
+</div>

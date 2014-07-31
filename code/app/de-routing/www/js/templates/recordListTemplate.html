@@ -1,0 +1,19 @@
+<div class="header">
+	<a href="#" class="button header-left up-nav"> <span
+		class="icon small up-nav"></span> <span class="title">Records</span>
+	</a>
+</div>
+<div class="scroll nofooter">
+	<div id="recordList">
+		<ul class="item-list list">
+			<% if (records.length < 1) { %>
+				<li><span class="text">No uncompleted records</span></li>
+			<% } %>
+			<% records.each( function(record) { %>
+			<li><a href="#/record/<%= record.get('id') %>"> <span class="title"><%= record.get('explorer') %></span>
+					<span class="number">#<%= record.get('exploration_id') %> </span> <span class="icon arrow"></span>
+			</a></li>
+			<% }); %>
+		</ul>
+	</div>
+</div>
