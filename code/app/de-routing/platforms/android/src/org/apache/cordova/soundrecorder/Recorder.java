@@ -1,4 +1,4 @@
-package org.apache.cordova.soundrecorder;
+package de.drl.probetool.soundrecorder;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 public class Recorder {
 	
-	//TODO: use recorder with better quality
 	private MediaRecorder mRecorder;
 	private MediaPlayer mPlayer;
 	private File audioFile = null;
@@ -38,7 +37,7 @@ public class Recorder {
 	    
 	    mRecorder = new MediaRecorder();
 	    mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-	    mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+	    mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 	    mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 	    mRecorder.setAudioEncodingBitRate(16);
 	    mRecorder.setAudioSamplingRate(44100);
@@ -76,8 +75,7 @@ public class Recorder {
 	}
 	
 	public void resetRecording() {
-		//audioFile.delete();
-		//audioFile = null;
+		audioFile = null;
 		
 		stopRecording();
 		stopPlayback();
@@ -108,7 +106,7 @@ public class Recorder {
 		
 	    ContentValues values = new ContentValues(4);
 	    long current = System.currentTimeMillis();
-	    values.put(MediaStore.Audio.Media.TITLE, audioFile.getName());
+	    values.put(MediaStore.Audio.Media.TITLE, "audio" + audioFile.getName());
 	    values.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current / 1000));
 	    values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
 	    values.put(MediaStore.Audio.Media.DATA, audioFile.getAbsolutePath());

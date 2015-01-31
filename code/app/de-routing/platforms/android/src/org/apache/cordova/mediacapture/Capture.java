@@ -205,9 +205,7 @@ public class Capture extends CordovaPlugin {
         File cache = null;
 
         // Use internal storage
-        //cache = cordova.getActivity().getCacheDir();
-        cache = cordova.getActivity().getExternalCacheDir();
-        
+        cache = cordova.getActivity().getCacheDir();
 
         // Create the cache directory if it doesn't exist
         cache.mkdirs();

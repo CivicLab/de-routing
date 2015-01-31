@@ -1,6 +1,13 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/nl.x-services.plugins.insomnia/www/Insomnia.js",
+        "id": "nl.x-services.plugins.insomnia.Insomnia",
+        "clobbers": [
+            "window.plugins.insomnia"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
         "id": "org.apache.cordova.file.DirectoryEntry",
         "clobbers": [
@@ -222,24 +229,17 @@ module.exports = [
         "clobbers": [
             "navigator.splashscreen"
         ]
-    },
-    {
-        "file": "plugins/nl.x-services.plugins.insomnia/www/Insomnia.js",
-        "id": "nl.x-services.plugins.insomnia.Insomnia",
-        "clobbers": [
-            "window.plugins.insomnia"
-        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "nl.x-services.plugins.insomnia": "4.0.1",
     "org.apache.cordova.file": "1.2.0",
     "org.apache.cordova.file-transfer": "0.4.4",
     "org.apache.cordova.media-capture": "0.3.1",
     "org.apache.cordova.soundrecorder": "0.2.0",
-    "org.apache.cordova.splashscreen": "0.3.1",
-    "nl.x-services.plugins.insomnia": "4.0.1"
+    "org.apache.cordova.splashscreen": "0.3.1"
 }
 // BOTTOM OF METADATA
 });

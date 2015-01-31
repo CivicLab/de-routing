@@ -1,6 +1,6 @@
-package org.apache.cordova.soundrecorder;
+package de.drl.probetool.soundrecorder;
 
-import de.drl.de_routing.R;
+import de.drl.probetool.R;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -263,7 +264,7 @@ public class SoundRecorderActivity extends Activity {
 	     Cursor cursor = this.getContentResolver().query(contentUri, proj, null, null, null);
 	     int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
 	     cursor.moveToFirst();
-	     return "file:"+cursor.getString(column_index);
+	     return cursor.getString(column_index);
 	}
 	
 
