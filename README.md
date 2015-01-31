@@ -18,8 +18,9 @@ http://nodejs.org/
 sudo npm install -g cordova
 
 ### download and install android sdk
-http://developer.android.com/sdk/installing/index.html?pkg=adt
-start eclipse -> SDK Manager install packages: android 2.3 (api 10)
+1. from http://developer.android.com/sdk/installing/index.html?pkg=adt
+2. start eclipse -> SDK Manager install packages: android 2.3 (api 10)
+3. import project from existing Code, choose code/app/de-routing/platform/android
 
 
 ## BUILD COMMANDS
