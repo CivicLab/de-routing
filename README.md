@@ -22,7 +22,7 @@ http://developer.android.com/sdk/installing/index.html?pkg=adt
 start eclipse -> SDK Manager install packages: android 2.3 (api 10)
 
 
-## Build Commands
+## BUILD COMMANDS
 
 1. cordova build android
 2. cordova run android (to run it on the android phone)
@@ -39,7 +39,8 @@ options.headers = {Connection: "close"};
 media capture plugin:
 ---------------------
 change function:
-private String getTempDirectoryPath() {
+
+    private String getTempDirectoryPath() {
     File cache = null;
 
     // Use internal storage
