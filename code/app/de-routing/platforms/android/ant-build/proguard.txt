@@ -1,0 +1,6 @@
+# view AndroidManifest.xml #generated:6
+-keep class de.drl.de_routing.DeRouting { <init>(...); }
+
+# view AndroidManifest.xml #generated:12
+-keep class org.apache.cordova.soundrecorder.SoundRecorderActivity { <init>(...); }
+

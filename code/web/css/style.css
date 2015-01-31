@@ -11,6 +11,8 @@ h1 {
 	webkit-margin:0px;
 	line-height: 1em;
 	text-transform: uppercase;
+	margin:0px;
+	font-weight: 400;
 }
 
 h2 {
@@ -29,6 +31,7 @@ a {
 
 a:hover {
 	color: #f00;
+	text-decoration: none;
 }
 
 #container { 

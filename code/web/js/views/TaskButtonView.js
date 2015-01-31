@@ -1,41 +1,49 @@
-app.TaskButtonView = Backbone.View.extend({
+define([
+        'jquery',
+        'underscore',
+        'views/BaseView',
+        'text!templates/taskButtonViewTemplate.html'
+], function($, _, BaseView, taskButtonViewTemplate) {
 
-	template:_.template($('#task-button-tpl').html()),
-	tagName: 'li',
-	className: 'selected',
 
-	events: {
-      'click a.select': 'toggleSelect',
-      'mouseover':'startHover',
-      'mouseleave':'stopHover'
-    },
+	TaskButtonView = BaseView.extend({
 
-    initialize: function(){
-    },
-   
-    render:function (eventName) {
-        
-        $(this.el).html(this.template(this.model.toJSON()));
-        return this;
-    },
+		tagName: 'li',
+		className: 'selected',
 
-    toggleSelect: function() {
-    	this.model.set({selected : !this.model.get('selected') })
-		
-    	if (this.model.get('selected')) {
-    		$(this.el).addClass('selected');
-    	} else {
-    		$(this.el).removeClass('selected');
-    	}
+		events: {
+	      'click a.select': 'toggleSelect',
+	      'mouseover':'startHover',
+	      'mouseleave':'stopHover'
+	    },
 
-    	return false;
-    },
+	   
+	    render:function (eventName) {
+	    	var compiledTemplate = _.template( taskButtonViewTemplate, { model: this.model.toJSON() });
+			this.$el.html( compiledTemplate );
+	        return this;
+	    },
 
-     startHover: function() {
-        this.model.setFocused(true);
-    },
+	    toggleSelect: function() {
+	    	this.model.set({selected : !this.model.get('selected') })
+			
+	    	if (this.model.get('selected')) {
+	    		$(this.el).addClass('selected');
+	    	} else {
+	    		$(this.el).removeClass('selected');
+	    	}
 
-    stopHover: function() {
-        this.model.setFocused(false);
-    },
+	    	return false;
+	    },
+
+	     startHover: function() {
+	        this.model.setFocused(true);
+	    },
+
+	    stopHover: function() {
+	        this.model.setFocused(false);
+	    },
+	});
+
+	return TaskButtonView;
 });

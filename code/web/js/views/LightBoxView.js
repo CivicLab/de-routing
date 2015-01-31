@@ -1,48 +1,59 @@
-app.LightBoxView = Backbone.View.extend({
+define([
+        'jquery',
+        'underscore',
+        'views/BaseView',
+        'text!templates/lightBoxViewTemplate.html'
+], function($, _, BaseView, lightBoxViewTemplate){
 
-	template:_.template($('#lightbox-tpl').html()),
 
-    className: 'lightbox',
+	LightBoxView = BaseView.extend({
 
-    events: {
-      'click a.close': 'close',
-      'click img' : 'close'
-    },
+		className: 'lightbox',
 
-    initialize: function(options){
+		events: {
+			'click a.close': 'close',
+			'click img' : 'close'
+		},
 
-        if (!options.contentUrl)
-            this.contentUrl = '';
-        else
-            this.contentUrl = options.contentUrl;
+		initialize: function(options){
 
-    },
-   
-    render:function () {
+			if (!options.contentUrl)
+				this.contentUrl = '';
+			else
+				this.contentUrl = options.contentUrl;
 
-        //render everything and append
-        var content = '<img src="'+this.contentUrl+'"/>'
-        $(this.el).html(this.template( { 'content' : content} ));
-        
-        //hide element
-        this.hide();
+		},
 
-        //append to body
-        $('body').append(this.el);
-    
-        return this;
-    },
+		render:function () {
 
-    show: function() {
-        $(this.el).show();
-        return this;
-    },
+			//render everything and append
+			var content = '<img src="'+this.contentUrl+'"/>'
+			var compiledTemplate = _.template( lightBoxViewTemplate, { 'content' : content});
+			this.$el.html( compiledTemplate );
 
-    hide: function() {
-        $(this.el).hide();
-    },
+			//hide element
+			this.hide();
 
-    close: function() {
-        $(this.el).remove();
-    }
+			//append to body
+			$('body').append(this.el);
+
+			return this;
+		},
+
+		show: function() {
+			$(this.el).show();
+			return this;
+		},
+
+		hide: function() {
+			$(this.el).hide();
+		},
+		
+		close: function() {
+	        $(this.el).remove();
+	    }
+	});
+
+	return LightBoxView;
+
 });

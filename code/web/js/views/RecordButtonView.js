@@ -1,46 +1,54 @@
-app.RecordButtonView = Backbone.View.extend({
+define([
+        'jquery',
+        'underscore',
+        'views/BaseView',
+        'text!templates/recordButtonViewTemplate.html'
+], function($, _, BaseView, recordButtonViewTemplate) {
 
-	template:_.template($('#record-button-tpl').html()),
-	tagName : 'li',
-	className: 'selected',
 
-    initialize: function(){
-    	
-    },
+	RecordButtonView = BaseView.extend({
 
-    events: {
-      'click a.select': 'toggleSelect',
-      'click a.details': 'showDetails',
-      'mouseover':'startHover',
-      'mouseleave':'stopHover'
-    },
-   
-    render:function (eventName) {
-        $(this.el).html(this.template(this.model.toJSON()));
-        return this;
-    },
+		tagName : 'li',
+		className: 'selected',
 
-    toggleSelect: function() {
-    	this.model.set({selected : !this.model.get('selected') })
+		events: {
+			'click a.select': 'toggleSelect',
+			'click a.details': 'showDetails',
+			'mouseover':'startHover',
+			'mouseleave':'stopHover'
+		},
 
-    	if (this.model.get('selected')) {
-    		$(this.el).addClass('selected');
-    	} else {
-    		$(this.el).removeClass('selected');
-    	}
+		render: function (eventName) {
+			
+			var compiledTemplate = _.template( recordButtonViewTemplate, { model: this.model.toJSON() });
+			this.$el.html( compiledTemplate );
+			return this;
+		},
 
-    	return false;
-    },
+		toggleSelect: function() {
+			this.model.set({selected : !this.model.get('selected') })
 
-    startHover: function() {
-    	this.model.setFocused(true);
-    },
+			if (this.model.get('selected')) {
+				$(this.el).addClass('selected');
+			} else {
+				$(this.el).removeClass('selected');
+			}
 
-    stopHover: function() {
-    	this.model.setFocused(false);
-    },
+			return false;
+		},
 
-    showDetails: function() {
-        this.trigger('showDetails',this.model);  
-    }
+		startHover: function() {
+			this.model.setFocused(true);
+		},
+
+		stopHover: function() {
+			this.model.setFocused(false);
+		},
+
+		showDetails: function() {
+			this.trigger('showDetails',this.model);  
+		}
+	});
+
+	return RecordButtonView;
 });

@@ -1,11 +1,19 @@
-app.SummaryView = Backbone.View.extend({
- 
-    template:_.template($('#summary-view-tpl').html()),
- 
-    render:function (eventName) {
+define([
+        'jquery',
+        'underscore',
+        'views/BaseView',
+        'text!templates/summaryViewTemplate.html'
+], function($, _, BaseView, summaryViewTemplate) {
+	
+	SummaryView = BaseView.extend({
 
-        $(this.el).html(this.template( this.model.toJSON() ));
+		render:function (eventName) {
 
-        return this;
-    }
+			var compiledTemplate = _.template( summaryViewTemplate, { model : this.model.toJSON() });
+			this.$el.html( compiledTemplate );
+
+			return this;
+		}
+	});
+	return SummaryView;
 });

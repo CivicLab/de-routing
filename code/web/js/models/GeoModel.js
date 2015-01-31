@@ -1,42 +1,45 @@
-app.GeoModel = Backbone.Model.extend({    
-    
-    defaults : {
-        layer : false,
-        className : "",
-        visibility: true,
-        type: "none",
+define([
+        'jquery',
+        'underscore',
+        'backbone'
+        ], function($, _, Backbone){
 
-        geoType : 'none',
-        geoCoordinates : [],
-        properties : {}
-    	
-    },
+	GeoModel = Backbone.Model.extend({    
 
-    toGeoJSON: function() {
-        var self = this;
-        var json = {
-            "type": "Feature",
-            "geometry": {
-                "type": self.get('geoType'),
-                "coordinates": self.get('geoCoordinates')
-            },
-            "properties": _.extend( self.get('properties'), { className: self.get('className')})
-        };
+		defaults : {
+			layer : false,
+			className : "",
+			visibility: true,
+			type: "none",
 
-        return json;
-    },
+			geoType : 'none',
+			geoCoordinates : [],
+			properties : {}
 
-    setLayer: function(layer) {
-        this.set({ 'layer' : layer });
-    },
+		},
 
-    setVisibility: function(visible) {
-        this.set({'visibility' : visible});
-    }
-});
+		toGeoJSON: function() {
+			var self = this;
+			var json = {
+					"type": "Feature",
+					"geometry": {
+						"type": self.get('geoType'),
+						"coordinates": self.get('geoCoordinates')
+					},
+					"properties": _.extend( self.get('properties'), { className: self.get('className')})
+			};
 
-app.GeoCollection = Backbone.Collection.extend({
-    
-    model: app.GeoModel
- 
+			return json;
+		},
+
+		setLayer: function(layer) {
+			this.set({ 'layer' : layer });
+		},
+
+		setVisibility: function(visible) {
+			this.set({'visibility' : visible});
+		}
+	});
+	
+	return GeoModel;
 });

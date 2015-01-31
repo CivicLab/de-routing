@@ -1,0 +1,11 @@
+<li class="task-video">
+	<p class="text"><%= task.text %></p> <% if (task.fileName) { %>
+	<div class="video">
+		<embed type="video/quicktime"
+			pluginspage="http://www.apple.com/quicktime/download/"
+			src="<%= task.fileName %>" autoplay="false" scale="aspect"</embed>
+	</div>
+	<div class="link">
+		<a href="<%= task.fileName %>" target="_blank">Download</a>
+	</div> <% } %>
+</li>

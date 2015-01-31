@@ -1,181 +1,193 @@
-app.MapView = Backbone.View.extend({
+define([
+        'jquery',
+        'underscore',
+        'views/BaseView',
+        'models/MapModel'
+], function($, _, BaseView, MapModel){
 
-	initialize: function(options) {
-		var self = this;
 
-		this.recordCollection = options.recordCollection;
+	MapView = BaseView.extend({
 
-		this.geoLayerOptions = {
-			pointToLayer: function (feature, latlng) {
-		        return L.marker(latlng, {icon : L.icon({ // style markers
-		        	iconUrl : 'images/marker-placeholder.png',
-		        	clickable: true,
-		        	className: feature.properties.className
-		        })});
-		    },
-		    style : function(feature) { // style other vectors
-        		if (feature.properties.type == 'path') {
-        			return { 
-        				clickable: false,
-        				className: feature.properties.className
-        			};
-        		}
-        			
-       		},
-       		onEachFeature: function(feature, layer) { // connect to event
-       			if (feature.properties.type == 'marker')
-					layer.on("click", function() {
-						self._onMarkerClick(this,feature);
-					});
-       		}
+		initialize: function(options) {
+			var self = this;
 
-		};		
+			this.recordCollection = options.recordCollection;
 
-		/*this.tileLayer = L.tileLayer.grayscale('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+			this.geoLayerOptions = {
+					pointToLayer: function (feature, latlng) {
+						return L.marker(latlng, {icon : L.icon({ // style markers
+							iconUrl : 'images/marker-placeholder.png',
+							clickable: true,
+							className: feature.properties.className
+						})});
+					},
+					style : function(feature) { // style other vectors
+						if (feature.properties.type == 'path') {
+							return { 
+								clickable: false,
+								className: feature.properties.className
+							};
+						}
+
+					},
+					onEachFeature: function(feature, layer) { // connect to event
+						if (feature.properties.type == 'marker')
+							layer.on("click", function() {
+								self._onMarkerClick(this,feature);
+							});
+					}
+
+			};		
+
+			/*this.tileLayer = L.tileLayer.grayscale('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
     		attribution: '-'
 		});*/
-		this.tileLayers = {
-			"Map": 	
-				L.tileLayer('http://a.tile.stamen.com/toner-background/{z}/{x}/{y}.png', {
-    					attribution: '-',
-    					opacity: 0.5,
-    					maxZoom: 18
-				}),
-   			"Satellite":
-				L.tileLayer(
-            		'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            		attribution: '-',
-            		maxZoom: 18,
-            		opacity: 0.9
-            	}),
-				
-			"None": L.tileLayer.canvas()
-		};
+			this.tileLayers = {
+					"Map": 	
+						L.tileLayer('http://a.tile.stamen.com/toner-background/{z}/{x}/{y}.png', {
+							attribution: '-',
+							opacity: 0.5,
+							maxZoom: 18
+						}),
+						"Satellite":
+							L.tileLayer(
+									'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+										attribution: '-',
+										maxZoom: 18,
+										opacity: 0.9
+									}),
 
-		this.overlayLayers = {
-			"Labels": 	
-				L.tileLayer.grayscale('http://a.tile.stamen.com/toner-labels/{z}/{x}/{y}.png', {
-    					attribution: '-',
-    					opacity: 1,
-    					maxZoom: 18
-				})
-		};
-		
-		
-		
+									"None": L.tileLayer.canvas()
+			};
 
-		// add events
-		this.recordCollection.on('change:focused', this.focusRecord, this);
-		this.collection.on('add', this.addFeature, this);
-		this.collection.on('change:visibility', this.changeVisibility,this);
-		this.model.on('change:visibility', this.toggleTileLayer, this)
+			this.overlayLayers = {
+					"Labels": 	
+						L.tileLayer.grayscale('http://a.tile.stamen.com/toner-labels/{z}/{x}/{y}.png', {
+							attribution: '-',
+							opacity: 1,
+							maxZoom: 18
+						})
+			};
 
-		
-	},
 
-	render: function() {
 
-		$(this.el).empty();
 
-		this.map = L.map(this.el, {
-    		center: [ this.model.get('latitude'),this.model.get('longitude')],
-    		maxZoom: 19,
-    		minZoom: 5,
-    		zoom: this.model.get('zoom'),
-    		layers: [this.tileLayers.Map]
-		});
+			// add events
+			this.recordCollection.on('change:focused', this.focusRecord, this);
+			this.collection.on('add', this.addFeature, this);
+			this.collection.on('change:visibility', this.changeVisibility,this);
+			this.model.on('change:visibility', this.toggleTileLayer, this)
 
-		L.control.layers(this.tileLayers,this.overlayLayers, {position:'topright'}).addTo(this.map);
-		
-		this.map.on('baselayerchange', this._onBaseLayerChange);
+			BaseView.prototype.initialize.call(this);
+		},
 
-		this.addAll();
+		render: function() {
 
-		return this;
-	},
+			$(this.el).empty();
 
-	addAll: function() {
-		this.collection.each(function(feature) {
-			addFeature(feature)
-		})
-	},
+			this.map = L.map(this.el, {
+				center: [ this.model.get('latitude'),this.model.get('longitude')],
+				maxZoom: 19,
+				minZoom: 5,
+				zoom: this.model.get('zoom'),
+				layers: [this.tileLayers.Map]
+			});
 
-	addFeature: function(geoObject) {
+			L.control.layers(this.tileLayers,this.overlayLayers, {position:'topright'}).addTo(this.map);
 
-		var layer = L.geoJson(geoObject.toGeoJSON(),this.geoLayerOptions);
-		geoObject.setLayer(layer);
-		this.map.addLayer(layer);
-	},
+			this.map.on('baselayerchange', this._onBaseLayerChange);
 
-	_onMarkerClick: function(clickevent) {
+			this.addAll();
 
-		var record = this.recordCollection.get(clickevent.feature.properties.record_id);
-		var task = record.getTaskById(clickevent.feature.properties.task_id);
+			return this;
+		},
 
-		var popupView = new app.TaskView({model : task});
+		addAll: function() {
+			this.collection.each(function(feature) {
+				addFeature(feature)
+			})
+		},
 
-		var popup = L.popup()
-	    	.setLatLng(clickevent._latlng)
-	   		.setContent(popupView.render(record.get('explorer')).el)
-	    	.openOn(this.map);
-	},
+		addFeature: function(geoObject) {
 
-	_onBaseLayerChange: function(layer) {
-		if (layer.name == "None") {
-			$('.marker').addClass('blackmarker');
-			utils.addClass('.path','blackpath');
-		} else {
-			$('.marker.blackmarker').removeClass('blackmarker');
-			utils.removeClass('.path.blackpath','blackpath');
-		}
-	},
+			var layer = L.geoJson(geoObject.toGeoJSON(),this.geoLayerOptions);
+			geoObject.setLayer(layer);
+			this.map.addLayer(layer);
+		},
 
-	toggleTileLayer: function() {
-		if (this.model.get('visibility'))
-			this.map.addLayer(this.tileLayer);
-		else
-			this.map.removeLayer(this.tileLayer);
-	},
+		_onMarkerClick: function(clickevent) {
 
-	resetView: function() {
-		this.map.setView([ this.model.get('latitude'),this.model.get('longitude')], this.model.get('zoom'));
-	},
+			var record = this.recordCollection.get(clickevent.feature.properties.record_id);
+			var task = record.getTaskById(clickevent.feature.properties.task_id);
 
-	focusRecord: function(record) {
+			var popupView = new TaskView({model : task});
+			this.addChildView(popupView);
 
-		$('.marker').css({'z-index' : ''});
+			var popup = L.popup()
+			.setLatLng(clickevent._latlng)
+			.setContent(popupView.render(record.get('explorer')).el)
+			.openOn(this.map);
+		},
 
-		var id = record.get('id');
+		_onBaseLayerChange: function(layer) {
+			if (layer.name == "None") {
+				$('.marker').addClass('blackmarker');
+				utils.addClass('.path','blackpath');
+			} else {
+				$('.marker.blackmarker').removeClass('blackmarker');
+				utils.removeClass('.path.blackpath','blackpath');
+			}
+		},
 
-		if (record.get('focused')) {
-			utils.addClass('.path.record'+id,'focused');
-			$('.marker.record'+id).addClass('focused');
-		} else {
-			utils.removeClass('.path.record'+id,'focused');
-			$('.marker.record'+id).removeClass('focused');
-		}
-			
-	},
+		toggleTileLayer: function() {
+			if (this.model.get('visibility'))
+				this.map.addLayer(this.tileLayer);
+			else
+				this.map.removeLayer(this.tileLayer);
+		},
 
-	focusTask: function(task) {
+		resetView: function() {
+			this.map.setView([ this.model.get('latitude'),this.model.get('longitude')], this.model.get('zoom'));
+		},
 
-		$('.marker').css({'z-index' : ''});
+		focusRecord: function(record) {
 
-		var id = task.get('id');
+			$('.marker').css({'z-index' : ''});
 
-		if (task.get('focused')) {
-			$('.marker.task'+id).addClass('focused');
-		} else {
-			$('.marker.task'+id).removeClass('focused');
-		}
-			
-	},
+			var id = record.get('id');
 
-	changeVisibility: function(geoObj) {
-		if (geoObj.get('visibility'))
-			this.map.addLayer(geoObj.get('layer'));
-		else
-			this.map.removeLayer(geoObj.get('layer'));
-	},
+			if (record.get('focused')) {
+				utils.addClass('.path.record'+id,'focused');
+				$('.marker.record'+id).addClass('focused');
+			} else {
+				utils.removeClass('.path.record'+id,'focused');
+				$('.marker.record'+id).removeClass('focused');
+			}
+
+		},
+
+		focusTask: function(task) {
+
+			$('.marker').css({'z-index' : ''});
+
+			var id = task.get('id');
+
+			if (task.get('focused')) {
+				$('.marker.task'+id).addClass('focused');
+			} else {
+				$('.marker.task'+id).removeClass('focused');
+			}
+
+		},
+
+		changeVisibility: function(geoObj) {
+			if (geoObj.get('visibility'))
+				this.map.addLayer(geoObj.get('layer'));
+			else
+				this.map.removeLayer(geoObj.get('layer'));
+		},
+
+	});
+	return MapView;
 
 });

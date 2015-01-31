@@ -1,0 +1,10 @@
+<li class="task-slider">
+	<div class="text"><%= task.text %></div> <% if (task.result) { %>
+	<div class="slider">
+		<div class="label-left"><%= task.start %></div>
+		<div class="label-right"><%= task.end %></div>
+		<div class="sliderbar">
+			<div style="width: <%= task.result %>"></div>
+		</div>
+	</div> <% } %>
+</li>

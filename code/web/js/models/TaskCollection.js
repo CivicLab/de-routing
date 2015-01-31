@@ -1,5 +1,15 @@
-app.TaskCollection = Backbone.Collection.extend({
- 
-    model: app.TaskModel
- 
+define([
+        'jquery',
+        'underscore',
+        'backbone',
+        'models/TaskModel'
+], function($, _, Backbone, TaskModel){
+
+	TaskCollection = Backbone.Collection.extend({
+
+		model: TaskModel
+
+	});
+	
+	return TaskCollection;
 });

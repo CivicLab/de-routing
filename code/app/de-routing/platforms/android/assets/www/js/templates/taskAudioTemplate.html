@@ -1,0 +1,16 @@
+<h1><%= subtask.title %></h1>
+<p><%= subtask.text %></p>
+<div class="audio">
+	<% if (subtask.result) { %>
+	<p class="result-text">Sound recording saved</p>
+	<% } else { %>
+	<p class="result-text" style="display: none">No sounds recorded</p>
+	<% } %>
+	<input type="hidden" class="result" value="<%= subtask.result %>"/>
+</div>
+<div class="center">
+	<a href="#" class="button big middle taskAction"> <span
+		class="icon audio"></span> <span class="text">Record Audio</span>
+	</a>
+	<div class="audio-recorder"></div>
+</div>

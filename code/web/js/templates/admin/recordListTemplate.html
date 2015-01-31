@@ -1,0 +1,24 @@
+
+<div id="admin-header">
+	<div class="logo">
+		<img src="images/icon.png">
+	</div>
+	<div class="title">De-Routing</div>
+	<div class="headermenu">
+		<ul>
+			<li><a href="#">List Explorations</a></li>
+			<li><a href="#admin/exploration/new">Add exploration</a></li>
+		</ul>
+	</div>
+</div>
+<div class="admin-container">
+	<div class="page-header">
+		<h1>
+			<a href="#">&laquo; </a>Record List for #<%= exploration.id %>:
+			<%= exploration.name %>
+		</h1>
+	</div>
+	<div class="list-group recordList">
+		<div class="no-records">No records submitted</div>
+	</div>
+</div>

@@ -1,188 +1,22 @@
 <html>
 	<head>
-		<title>De:Routing</title>
-		<link href="css/leaflet.css" rel="stylesheet" />
+		<title>DeRouting Exploration Editor</title>
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+		<link href="css/leaflet.css" rel="stylesheet">
+		<link href="css/style_admin.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
 		<link rel="shortcut icon" href="images/favicon.ico">
 	</head>
-	<body>
-		<div id="container"></div>
-
-		<!-- Templates -->
-		<script type="text/template" id="app-tpl">
-		    
-		    <div id="sidebar">
-		    	<a class="closeButton hideSidebar">-</a>
-		    	<h1>DE-ROUTING MAPS</h1>
-		    	<div id="records">
-		    		<h2>ROUTES</h2>
-		    		<ul id="recordList">
-		    		</ul>
-		    	</div>
-		    	<div id="tasks">
-		    		<h2>TASKS</h2>
-		    		<ul id="taskList">
-		    		</ul>
-		    	</div>
-		    	<div id="controls">
-		    		<h2>MORE</h2>
-		    		<ul>
-		    			<li><a class="showSummary">Background</a></li>
-		    			<li><a class="">Summary</a></li>
-					</ul>
-					<ul>
-		    			<li><a class="resetMap">Reset Map</a></li>
-		    		</ul>
-		    	</div>
-		    </div>
-		    <div id="info" class="hidden">
-		    	<a class="closeButton closeInfo">&#215;</a>
-		    	<a class="closeButton minimizeInfo">-</a>
-		    	<div id="infoContent">
-		    	</div>
-		    </div>
-		    <div id="logo">
-		    	<img class="logo" src="images/community_now_logo.png"/>
-		    </div>
-
-			<div id="map">Leaflet Map</div>    
-		</script>
-
-		<script type="text/template" id="record-view-tpl">
-		    <h1><%= explorer %></h1>
-		</script>
-
-		<script type="text/template" id="record-button-tpl">
-		    <span class="left"><a class="select"><%= explorer %></a></span>
-		    <span class="right"><a class="details">info</a></span>
-		</script>
-
-		<script type="text/template" id="task-button-tpl">
-		    <span class="left"><a class="select" title="<%= title %>">Task #<%= id %></a></span>
-		</script>
-
-		<script type="text/template" id="task-view-tpl">
-		    <h2>TASK #<%= id %></h2>
-		    <h2 class="name"><%= name %></h2>
-		    <ul class="subtasks">
-		    </ul>
-		    
-		</script>
-
-		<script type="text/template" id="summary-view-tpl">
-		    <h1><%= name %></h1>
-		    <div class="date"><%= created_time %></div>
-		    <div class="briefing"><%= json.description %></div>
-		</script>
-
-		<script type="text/template" id="task-text-tpl">
-		    <li class="task-text">
-		    	<div class="text"><%= text %></div>
-		    	<div class="resulttext"><%= result %></div>
-		    </li>
-		</script>
-
-		<script type="text/template" id="task-none-tpl">
-		    <li class="none">
-		    	<div class="text"><%= text %></div>
-		    </li>
-		</script>
-
-		<script type="text/template" id="task-picture-tpl">
-		    <li class="task-picture">
-		    	<div class="text"><%= text %></div>
-		    	<% if (fileName) { %>
-		    		<div class="image">
-		    			<a href="<%= fileName %>" class="openLightbox"><img src="<%= fileName %>"/></a>
-		    		</div>
-		    	<% } %>
-		    </li>
-		</script>
-
-		<script type="text/template" id="task-audio-tpl">
-		    <li class="task-audio">
-		    	<p class="text"><%= text %></p>
-		    	<% if (fileName) { %>
-		    		<div class="audio">
-			    		<embed type="video/quicktime" 
-			    			pluginspage="http://www.apple.com/quicktime/download/"
-							src="<%= fileName %>"
-							autoplay="false"
-							scale="tofit"
-						</embed>
-					</div>
-					<div class="link">
-		    			<a href="<%= fileName %>" target="_blank">Download</a>
-		    		</div>
-		    	<% } %>
-		    </li>
-		</script>
-
-		<script type="text/template" id="task-video-tpl">
-		    <li class="task-video">
-		    	<p class="text"><%= text %></p>
-		    	<% if (fileName) { %>
-		    		<div class="video">
-			    		<embed type="video/quicktime" 
-			    			pluginspage="http://www.apple.com/quicktime/download/"
-							src="<%= fileName %>"
-							autoplay="false"
-							scale="aspect"
-						</embed>
-					</div>
-					<div class="link">
-		    			<a href="<%= fileName %>" target="_blank">Download</a>
-		    		</div>
-		    	<% } %>
-		    </li>
-		</script>
-
-		<script type="text/template" id="task-slider-tpl">
-		    <li class="task-slider">
-		    	<div class="text"><%= text %></div>
-		    	<% if (result) { %>
-		    		<div class="slider">
-		    			<div class="label-left"><%= start %></div><div class="label-right"><%= end %></div>
-		    			<div class="sliderbar"><div style="width: <%= result %>%"></div></div>
-		    		</div>
-		    	<% } %>
-		    </li>
-		</script>
-
-		<script type="text/template" id="lightbox-tpl">
-			<a class="closeButton close">&#215;</a>
-		    <div class="innerLightbox">
-		    	<%= content %>
-		    </div>
-		</script>
-
-		<script src="libs/jquery-1.10.2.min.js" type="text/javascript"></script>
-		<script src="libs/jquery.wrap-svg.js" type="text/javascript"></script>
-  		<script src="libs/underscore-min.js" type="text/javascript"></script>
-  		<script src="libs/backbone-min.js" type="text/javascript"></script>
-  		<script src="libs/leaflet.js" type="text/javascript"></script>
-  		<script src="libs/TileLayer.Grayscale.js" type="text/javascript"></script>
-  		<script src="js/helpers/utils.js" type="text/javascript"></script>
-		<script src="js/app.js" type="text/javascript"></script>
-		<script src="js/values/constants.js" type="text/javascript"></script>
-		<script src="js/models/ExplorationModel.js" type="text/javascript"></script>
-		<script src="js/models/ExplorationCollection.js" type="text/javascript"></script>
-		<script src="js/models/TaskModel.js" type="text/javascript"></script>
-		<script src="js/models/TaskCollection.js" type="text/javascript"></script>
-		<script src="js/models/RecordModel.js" type="text/javascript"></script>
-		<script src="js/models/RecordCollection.js" type="text/javascript"></script>
-		<script src="js/models/GeoModel.js" type="text/javascript"></script>
-		<script src="js/models/MapModel.js" type="text/javascript"></script>
-		<script src="js/views/LightBoxView.js" type="text/javascript"></script>
-		<script src="js/views/MapView.js" type="text/javascript"></script>
-		<script src="js/views/ExplorationView.js" type="text/javascript"></script>
-		<script src="js/views/RecordView.js" type="text/javascript"></script>
-		<script src="js/views/RecordButtonView.js" type="text/javascript"></script>
-		<script src="js/views/TaskButtonView.js" type="text/javascript"></script>
-		<script src="js/views/TaskView.js" type="text/javascript"></script>
-		<script src="js/views/SummaryView.js" type="text/javascript"></script>
-		<script src="js/views/AppView.js" type="text/javascript"></script>
-		<script src="js/router.js" type="text/javascript"></script>
+	<body role='document'>
+    
+	<div id="container"></div>
+	<script src="libs/jquery-1.10.2.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  	<script src="libs/leaflet.js" type="text/javascript"></script>
+  	<script src="libs/TileLayer.Grayscale.js" type="text/javascript"></script>
+  	<script src="js/helpers/utils.js" type="text/javascript"></script>
+	<script data-main="js/main" src="libs/require.js"></script>
+		
 	</body>
 </html>

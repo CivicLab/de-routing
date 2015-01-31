@@ -11,7 +11,7 @@
     <repo></repo>
     <issue></issue>
 
-    <js-module src="www/soundRecorder.js" name="soundrecorder">
+    <js-module src="www/soundrecorder.js" name="soundrecorder">
         <merges target="navigator.soundrecorder" />
     </js-module>
 

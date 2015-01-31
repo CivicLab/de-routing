@@ -2,24 +2,44 @@
 
     require 'config.php';
     require 'Slim/Slim.php';
-    \Slim\Slim::registerAutoloader();
+    require 'BasicAuth.php';
 
-    $app = new \Slim\Slim();
+    use \Slim\Slim;
+    use \Slim\Extras\Middleware\HttpBasicAuth;
 
-    
+    Slim::registerAutoloader();
+
+    $app = new Slim();
+
+    if (USE_ADMIN_LOGIN) {
+        $app->add(new BasicAuth(ADMIN_USERNAME, ADMIN_PASSWORD,'private',array(
+            new Route('DELETE','/records'),
+            new Route('DELETE','/explorations'),
+            new Route('PUT','/explorations'),
+            new Route('POST','/explorations')
+        )));
+    }
         
-    //get routes
-    $app->get('/explorations/', 'getExplorations');
+    //exploration routes
+    $app->get('/explorations/', 'listExplorations');
     $app->get('/explorations/:id', 'getExploration');
+    $app->put('/explorations/:id', 'saveExploration');
+    $app->post('/explorations/', 'saveExploration');
+    $app->delete('/explorations/:id', 'deleteExploration');
+
+
+    //record routes
+    $app->get('/records/:arg', 'getRecord');
     $app->get('/records/', function() use ($app) {
         $req = $app->request->params('exploration_id');
         getRecords($req); 
     });
-    $app->get('/records/:arg', 'getRecord');
-
-    //post routes
+    $app->delete('/records/:arg', 'deleteRecord');
+   
+    //upload record routes
     $app->post('/records/submit/', 'submitRecord');
     $app->post('/records/upload/', 'uploadRecordFile');
+
 
     $app->run();
 
@@ -41,16 +61,74 @@
         }
     }
 
-    function getExplorations() {
+    function listExplorations() {
         try {
             $db = getConnection();
-            $stmt = $db->query("SELECT * FROM ".DB_TABLE_EXPLORATIONS." WHERE visible = 1 ORDER BY created_time");
+            $stmt = $db->query("SELECT * FROM ".DB_TABLE_EXPLORATIONS." WHERE visible = 1 ORDER BY id DESC");
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $db = null;
             _convertJsonColumns($result,array('json'));
             _sendData($result);
         } catch(PDOException $e) {
+            _sendData($e->getMessage(),404); 
+        }
+    }
+
+    function saveExploration($arg = null) {
+
+        $app = Slim::getInstance();
+        $body = $app->request->getBody();
+        
+        $data = (array) json_decode($body);
+
+        $json = json_encode($data['json']);
+
+        /*ob_start();
+        var_dump($data['name']);
+        $result = ob_get_clean();*/
+        //_saveToLog($json);
+
+        try {
+            $db = getConnection();
+            if ($arg != null) {
+	            $stmt = $db->prepare("REPLACE INTO ".DB_TABLE_EXPLORATIONS." (id,name,json,visible)
+	                VALUES (:id,:name,:json,:visible)");
+	            $insertData = array(
+	                'id' => $data['id'],
+	                'name' => $data['name'],
+	                'json' => $json,
+	                'visible' => $data['visible']
+	            );
+	            $stmt->execute($insertData);
+	        } else {
+	        	$stmt = $db->prepare("INSERT INTO ".DB_TABLE_EXPLORATIONS." (name,json,visible)
+	                VALUES (:name,:json,:visible)");
+	            $insertData = array(
+	                'name' => $data['name'],
+	                'json' => $json,
+	                'visible' => $data['visible']
+	            );
+	            $stmt->execute($insertData);
+	        }
+            $db = null;
+            //_saveToLog($json);
+            _sendData("data inserted",200,true);
+        } catch(PDOException $e) {
+            //_saveToLog($e->getMessage());
             _sendData($e->getMessage(),500); 
+        }
+    }
+
+    function deleteExploration($arg) {
+
+         try {
+            $db = getConnection();
+            $stmt = $db->prepare("DELETE FROM ".DB_TABLE_EXPLORATIONS." WHERE id = :id");
+            $stmt->execute(array('id' => $arg));
+            $db = null;
+            _sendData("exploration deleted."); 
+        } catch(PDOException $e) {
+            _sendData($e->getMessage(),404); 
         }
     }
 
@@ -100,13 +178,31 @@
             _sendData($e->getMessage(),500); 
         }
     }
+
+    function deleteRecord($arg) {
+        try {
+            $db = getConnection();
+            $stmt = $db->prepare("DELETE FROM ".DB_TABLE_RECORDS." WHERE id = :id");
+            $stmt->execute(array('id' => $arg));
+            $db = null;
+            _sendData("record deleted."); 
+        } catch(PDOException $e) {
+            _sendData($e->getMessage(),404); 
+        }
+    }
+
+    /* Upload Record Methods */
  
     function submitRecord() {
         try {
             // get and decode JSON request body
-            $app = \Slim\Slim::getInstance();
+            $app = Slim::getInstance();
             $request = $app->request();
             $record = $request->post('record');
+
+            if ($record == null)
+            	_sendData("no record data submitted",405);
+
             $record = json_decode($record,true);
 
             //check which files need to be uploaded
@@ -115,7 +211,7 @@
                 foreach ($task['subtasks'] as &$subtask) {
                     if (array_key_exists("result",$subtask) && array_key_exists("resultType",$subtask) && $subtask['resultType'] == "file") {
                         $subtask['fileName'] = basename($subtask["result"]);
-                        $files[] = array( "uri" => $subtask["result"],  "name" => $subtask['fileName']);
+                        $files[] = array( "uri" => $subtask["result"], "name" => $subtask['fileName']);
                     }
                 }
             }
@@ -166,7 +262,7 @@
 
     function uploadRecordFile() {
         // get and decode JSON request body
-        $app = \Slim\Slim::getInstance();
+        $app = Slim::getInstance();
         $request = $app->request();
         $record_id = $request->post('record_id');
        
@@ -228,9 +324,9 @@
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 
         // allow all requests
-        header("Access-Control-Allow-Orgin: *");
+        header("Access-Control-Allow-Orgin: http://farseer.de");
         header("Access-Control-Allow-Methods: *");
-
+        
         // headers to tell that result is JSON
         header('Content-type: application/json');
 
@@ -265,4 +361,12 @@
         $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);  
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $dbh;
+    }
+
+    // Log data
+    function _saveToLog($data) {
+        $file = 'log/log.txt';
+        $current = file_get_contents($file);
+        $current .= "Time: ".date("r")."\n Data:".$data."\n";
+        file_put_contents($file, $current);
     }

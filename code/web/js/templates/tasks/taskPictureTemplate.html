@@ -1,0 +1,7 @@
+<li class="task-picture">
+	<div class="text"><%= task.text %></div> <% if (task.fileName) { %>
+	<div class="image">
+		<a href="<%= task.fileName %>" class="openLightbox"><img
+			src="<%= task.fileName %>" /></a>
+	</div> <% } %>
+</li>

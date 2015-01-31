@@ -1,0 +1,19 @@
+
+<div class="list-group-item">
+	<h4 class="list-group-item-heading"><%=exploration.name %> - #<%=
+		exploration.id %></h4>
+	<% if ((exploration.json != null) && (exploration.json.description !=
+	'')) { %>
+	<p class="list-group-item-text description"><%=
+		exploration.json.description %></p>
+	<% } else { %>
+	<p class="list-group-item-text description">No description</p>
+	<% } %>
+	<div class="upper-right">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default show">Show</button>
+			<button type="button" class="btn btn-default edit">Edit</button>
+			<button type="button" class="btn btn-default records">Records</button>
+		</div>
+	</div>
+</div>

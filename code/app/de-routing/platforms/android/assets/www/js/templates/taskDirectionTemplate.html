@@ -1,0 +1,10 @@
+<% if (direction.type=='left') { %>
+<div class="direction arrow left"></div>
+<% } if (direction.type=='right') { %>
+<div class="direction arrow right"></div>
+<% } if (direction.type=='forward') { %>
+<div class="direction arrow forward"></div>
+<% } if (direction.type=='undirected') { %>
+<div class="direction arrow undirected"></div>
+<% } %>
+<h2><%= direction.text %></h2>

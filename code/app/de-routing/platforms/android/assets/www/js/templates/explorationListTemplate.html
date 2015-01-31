@@ -1,0 +1,10 @@
+<ul class="item-list list">
+	<% if (explorations.length > 0) { %>
+	<li><span class="text">Choose an exploration to start</span></li> <% }
+	%> <% explorations.each( function(exploration) { %>
+	<li><a href="#/start/<%= exploration.get('id') %>"> <span
+			class="title"><%= exploration.get('name') %></span> <span
+			class="number">#<%= exploration.get('id') %> </span> <span
+			class="icon arrow"></span>
+	</a></li> <% }); %>
+</ul>
