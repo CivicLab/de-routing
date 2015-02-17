@@ -60,11 +60,11 @@ soundrecord plugin:
 1. right now you need to copy the files in the "res" folder manually to the android repository
 2. add to androidmanifest.xml:
 	
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    \<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    \<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    \<uses-permission android:name="android.permission.RECORD_AUDIO" />
     
 3. add activity to androidManifest.xml:
 
-	<activity android:screenOrientation="portrait" android:label="Sound Recorder" android:name="org.apache.cordova.soundrecorder.SoundRecorderActivity" android:theme="@android:style/Theme.Black.NoTitleBar">
+    <activity android:screenOrientation="portrait" android:label="Sound Recorder" android:name="org.apache.cordova.soundrecorder.SoundRecorderActivity" android:theme="@android:style/Theme.Black.NoTitleBar">
     </activity>
