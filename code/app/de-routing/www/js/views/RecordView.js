@@ -5,10 +5,9 @@ define([
 	'views/AlertOverlay',
 	'views/ProgressOverlay',
 	'models/RecordCollection',
-	'helpers/RecordUploader',
 	'values/language',
 	'text!templates/recordTemplate.html'
-], function($, _, BaseView, AlertOverlay, ProgressOverlay, RecordCollection, RecordUploader, LANGUAGE, recordTemplate){
+], function($, _, BaseView, AlertOverlay, ProgressOverlay, RecordCollection, LANGUAGE, recordTemplate){
 	
 	var RecordView = BaseView.extend({
 		
@@ -64,23 +63,19 @@ define([
 			progressOverlay.show();
 			
 			// upload file
-			var recordUploader = new RecordUploader(this.model);
-			recordUploader.sendRecordData(function(data) {
-				recordUploader.uploadFiles(data.files, function(msg) {
-					
-					//update this record
+			this.model.upload({
+				success: function() {
 					self.model.set({submitted : true});
 					self.model.save();
 					self.render();
-					
-					progressOverlay.setFinished(msg);
-				}, function(error) {
+					progressOverlay.setFinished("Record succesfully uploaded.");
+				},
+				error: function(error) {
 					progressOverlay.setFinished(error);
-				}, function(progress) {
-					progressOverlay.setProgress(progress)
-				});
-			}, function(error) {
-				progressOverlay.setFinished(error);
+				},
+				progress: function(prog) {
+					progressOverlay.setProgress(prog);
+				}
 			});
 			return false;
 		}

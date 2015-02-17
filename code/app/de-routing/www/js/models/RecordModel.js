@@ -4,8 +4,10 @@ define([
         'localstorage',
         'models/TaskCollection',
         'models/TaskModel',
-        'helpers/Utils'
-], function(_, Backbone,localstorage,TaskCollection,TaskModel,Utils){
+        'helpers/Utils',
+        'values/constants',
+        'helpers/FileUploader'
+], function(_, Backbone,localstorage,TaskCollection,TaskModel,Utils,CONSTANTS,FileUploader){
 
 	var RecordModel = Backbone.Model.extend({
 		
@@ -67,7 +69,59 @@ define([
 		
 		size: function() {
 			return this.get('tasks').length;
-		}
+		},
+		
+		upload: function(options) {
+			
+			var self = this;
+			
+			// then upload files
+			function uploadFiles(files) {
+				FileUploader.uploadFiles(files,
+					self.get('service_url')+"/records/upload/"+self.get('id'),
+					{
+						success: function() {
+							options.success();
+						},
+						error: function(error) {
+							options.error(error);
+						},
+						progress: function(progress) {
+							options.progress(progress);
+						}
+					}
+				);
+			}
+
+			console.log('sending record data...');
+			// first send data
+			request = $.ajax({
+				url:  self.get('service_url')+"/records/submit",
+				type: "post",
+				dataType: "json",
+				data: {"record" : self.createJSON() },
+				timeout: CONSTANTS.SETTING_WEB_TIMEOUT,
+				success: function(response) {
+					console.log("data sent");
+					//console.log(response);
+					uploadFiles(response.files);
+				},
+			    error: function(error) {
+			    	options.error("Could not connect to server.");
+			    	console.log(error);
+			    }
+			});
+		},
+		
+		createJSON: function() {
+			
+			var json = this.toJSON();
+			
+			json['tasks'] = this.get('tasks').toJSON();
+			
+			return json;
+			
+		},
 	});
 
 	return RecordModel;

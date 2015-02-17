@@ -21,9 +21,6 @@
             <feature name="SoundRecorder">
                 <param name="android-package" value="org.apache.cordova.soundrecorder.SoundRecorder"/>
             </feature>
-            <uses-permission android:name="android.permission.RECORD_AUDIO" />
-            <uses-permission android:name="android.permission.RECORD_VIDEO"/>
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         </config-file>
 
         <source-file src="src/android/SoundRecorder.java" target-dir="src/org/apache/cordova/soundrecorder" />

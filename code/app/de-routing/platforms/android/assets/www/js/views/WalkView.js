@@ -46,7 +46,8 @@ define([
 			this._checkGpsEnabled();
 			
 			//prevent device from sleeping
-			window.plugins.insomnia.keepAwake();
+			if (window.isMobile)
+				window.plugins.insomnia.keepAwake();
 		},
 		
 		close: function() {
@@ -56,7 +57,8 @@ define([
 			document.removeEventListener("backbutton",this._backbuttonHandler,false)
 			
 			//allow device to sleep again
-			window.plugins.insomnia.allowSleepAgain();
+			if (window.isMobile)
+				window.plugins.insomnia.allowSleepAgain();
 			
 			BaseView.prototype.close.call(this);
 		},

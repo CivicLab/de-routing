@@ -203,7 +203,9 @@
             if ($record == null)
             	_sendData("no record data submitted",405);
 
-            $record = json_decode($record,true);
+            //add route if non existent
+            if (!array_key_exists("route",$record))
+                $record['route'] = array();
 
             //check which files need to be uploaded
             $files = array();
@@ -274,7 +276,7 @@
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $db = null;
             if (sizeof($result) < 1)
-                _sendData("Record entry for upload file does not exist",404);
+                _sendData("Record entry for upload file does not exist, id: ".$record_id,404);
         } catch (Exception $e) {
             _sendData($e->getMessage(),500);
         }

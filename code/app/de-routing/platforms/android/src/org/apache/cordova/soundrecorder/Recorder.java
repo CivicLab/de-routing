@@ -1,4 +1,4 @@
-package de.drl.probetool.soundrecorder;
+package org.apache.cordova.soundrecorder;
 
 import java.io.File;
 import java.io.IOException;

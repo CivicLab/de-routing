@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+           id="org.apache.cordova.soundrecorder"
+      version="0.2.0">
+
+    <name>SoundRecorder</name>
+    <description>Cordova Soundrecorder Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,soundecorder</keywords>
+    <repo></repo>
+    <issue></issue>
+
+    <js-module src="www/soundrecorder.js" name="soundrecorder">
+        <merges target="navigator.soundrecorder" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="SoundRecorder">
+                <param name="android-package" value="org.apache.cordova.soundrecorder.SoundRecorder"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/SoundRecorder.java" target-dir="org/apache/cordova/soundrecorder" />
+        <source-file src="src/android/Recorder.java" target-dir="org/apache/cordova/soundrecorder" />
+        <source-file src="src/android/SoundRecorderActivity.java" target-dir="org/apache/cordova/soundrecorder" />
+
+    </platform>
+    
+
+</plugin>

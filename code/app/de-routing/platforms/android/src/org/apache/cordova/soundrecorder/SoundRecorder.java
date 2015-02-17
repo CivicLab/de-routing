@@ -16,7 +16,7 @@
        specific language governing permissions and limitations
        under the License.
 */
-package de.drl.probetool.soundrecorder;
+package org.apache.cordova.soundrecorder;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;

@@ -1,6 +1,8 @@
-package de.drl.probetool.soundrecorder;
+package org.apache.cordova.soundrecorder;
 
-import de.drl.probetool.R;
+
+import com.drl.derouting.R;
+
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;

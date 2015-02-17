@@ -222,24 +222,16 @@ module.exports = [
         "merges": [
             "navigator.soundrecorder"
         ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
-        "id": "org.apache.cordova.splashscreen.SplashScreen",
-        "clobbers": [
-            "navigator.splashscreen"
-        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "nl.x-services.plugins.insomnia": "4.0.1",
-    "org.apache.cordova.file": "1.2.0",
-    "org.apache.cordova.file-transfer": "0.4.4",
-    "org.apache.cordova.media-capture": "0.3.1",
-    "org.apache.cordova.soundrecorder": "0.2.0",
-    "org.apache.cordova.splashscreen": "0.3.1"
+    "org.apache.cordova.file": "1.3.3",
+    "org.apache.cordova.file-transfer": "0.5.0",
+    "org.apache.cordova.media-capture": "0.3.6",
+    "org.apache.cordova.soundrecorder": "0.2.0"
 }
 // BOTTOM OF METADATA
 });

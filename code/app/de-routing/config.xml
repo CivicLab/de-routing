@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="de.drl.de-routing" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>De-Routing</name>
+<widget id="com.drl.derouting" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>de-routing</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -9,8 +9,4 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <preference name="KeepRunning" value="false"/>
-    <!--  <preference name="LoadingDialog" value="De-Routing,Starting application ..."/>-->
-    <preference name="SplashScreen" value="splashscreen"/>
-    <preference name="orientation" value="portrait"/>
 </widget>

@@ -27,22 +27,6 @@
                         {
                             "xml": "<feature name=\"SoundRecorder\"><param name=\"android-package\" value=\"org.apache.cordova.soundrecorder.SoundRecorder\" /></feature>",
                             "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.RECORD_VIDEO\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /></feature>",
-                            "count": 1
                         }
                     ]
                 }
@@ -69,22 +53,19 @@
     },
     "installed_plugins": {
         "nl.x-services.plugins.insomnia": {
-            "PACKAGE_NAME": "de.drl.de_routing"
+            "PACKAGE_NAME": "com.drl.derouting"
         },
         "org.apache.cordova.file": {
-            "PACKAGE_NAME": "de.drl.de_routing"
+            "PACKAGE_NAME": "com.drl.derouting"
         },
         "org.apache.cordova.file-transfer": {
-            "PACKAGE_NAME": "de.drl.de_routing"
+            "PACKAGE_NAME": "com.drl.derouting"
         },
         "org.apache.cordova.media-capture": {
-            "PACKAGE_NAME": "de.drl.de_routing"
+            "PACKAGE_NAME": "com.drl.derouting"
         },
         "org.apache.cordova.soundrecorder": {
-            "PACKAGE_NAME": "de.drl.de_routing"
-        },
-        "org.apache.cordova.splashscreen": {
-            "PACKAGE_NAME": "de.drl.de_routing"
+            "PACKAGE_NAME": "com.drl.derouting"
         }
     },
     "dependent_plugins": {}
