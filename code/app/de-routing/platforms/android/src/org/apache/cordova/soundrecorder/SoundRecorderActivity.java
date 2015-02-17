@@ -1,6 +1,9 @@
 package org.apache.cordova.soundrecorder;
 
 
+import java.io.File;
+import java.net.URI;
+
 import com.drl.derouting.R;
 
 import android.media.MediaPlayer;
@@ -222,14 +225,25 @@ public class SoundRecorderActivity extends Activity {
 	public void saveRecording() {
 		Uri uri = recorder.save();
 		
-		//get full path from uri
-		String path = getRealPathFromURI(uri);
-		
-		//send back the data
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra("path",path);
-		setResult(RESULT_OK,returnIntent);     
-		finish();
+		try {
+			//String path = myuri.toString(); // "file:///mnt/sdcard/FileName.mp3"
+			//File file = new File(new URI(path));
+			//get full path from uri
+			//String path = uri.getPath();
+			String path = getRealPathFromURI(uri);
+			
+			
+			//send back the data
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra("path",path);
+			setResult(RESULT_OK,returnIntent);     
+			finish();
+		} catch (Exception e) {
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra("error",e.getMessage());
+			setResult(RESULT_CANCELED,returnIntent);     
+			finish();
+		}
 	}
 	
 	public void sendError(String error) {
@@ -260,8 +274,7 @@ public class SoundRecorderActivity extends Activity {
     	return(secString+":"+hsecString);
 	}
 	
-	private String getRealPathFromURI(Uri contentUri) 
-	{
+	private String getRealPathFromURI(Uri contentUri) {
 	     String[] proj = { MediaStore.Audio.Media.DATA };
 	     Cursor cursor = this.getContentResolver().query(contentUri, proj, null, null, null);
 	     int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);

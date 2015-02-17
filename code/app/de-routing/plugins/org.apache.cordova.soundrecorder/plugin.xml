@@ -23,9 +23,27 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/SoundRecorder.java" target-dir="src/org/apache/cordova/soundrecorder" />
-        <source-file src="src/android/Recorder.java" target-dir="src/org/apache/cordova/soundrecorder" />
-        <source-file src="src/android/SoundRecorderActivity.java" target-dir="src/org/apache/cordova/soundrecorder" />
+        <source-file src="src/android/src/SoundRecorder.java" target-dir="src/org/apache/cordova/soundrecorder" />
+        <source-file src="src/android/src/Recorder.java" target-dir="src/org/apache/cordova/soundrecorder" />
+        <source-file src="src/android/src/SoundRecorderActivity.java" target-dir="src/org/apache/cordova/soundrecorder" />
+
+        <source-file src="src/android/res/drawable/accept_button.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/play_button.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/record_button.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/reset_button.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/layout/activity_sound_recorder.xml" target-dir="res/layout" />
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    		<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    		<uses-permission android:name="android.permission.RECORD_AUDIO" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/application/*"> 
+	        <activity android:screenOrientation="portrait" android:label="Sound Recorder" android:name="org.apache.cordova.soundrecorder.SoundRecorderActivity" android:theme="@android:style/Theme.Black.NoTitleBar">
+	        </activity>
+        </config-file>
+        
 
     </platform>
     

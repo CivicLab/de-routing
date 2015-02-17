@@ -231,7 +231,8 @@ module.exports.metadata =
     "org.apache.cordova.file": "1.3.3",
     "org.apache.cordova.file-transfer": "0.5.0",
     "org.apache.cordova.media-capture": "0.3.6",
-    "org.apache.cordova.soundrecorder": "0.2.0"
+    "org.apache.cordova.soundrecorder": "0.2.0",
+    "org.chromium.audiocapture": "1.0.4"
 }
 // BOTTOM OF METADATA
 });
